@@ -9,16 +9,17 @@ function ProductPage() {
   const [itemSelected, setItemSelected] = useState(false);
   const { addToCart } = useContext(CartContext);
   const { cart } = useContext(CartContext);
+
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
       .then((res) => res.json())
       .then((product) => setProduct(product));
   }, []);
 
-  const handleAddToCart = ({ product }) => {
+  const handleAddToCart = () => {
     setItemSelected(true);
-    const AddedItem = product;
-    addToCart({ AddedItem });
+
+    addToCart({ product });
     console.log(cart);
   };
 
