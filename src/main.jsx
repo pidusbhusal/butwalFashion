@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import CartContextProvider from "./Context/cartContext.jsx";
 
 import "./index.css";
 import Home from "./Components/Home/index.jsx";
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Navbar />
-    <RouterProvider router={router} />
+    <CartContextProvider>
+      <Navbar />
+      <RouterProvider router={router} />
+    </CartContextProvider>
   </React.StrictMode>
 );

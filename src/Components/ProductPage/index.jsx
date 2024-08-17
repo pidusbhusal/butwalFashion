@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../../Context/cartContext";
 
 function ProductPage() {
   const [productCount, setProductCount] = useState(1);
   const [product, setProduct] = useState({});
   const { id } = useParams();
-
+  const [itemSelected, setItemSelected] = useState(false);
+  const { addToCart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
       .then((res) => res.json())
       .then((product) => setProduct(product));
   }, []);
+
+  const handleAddToCart = ({ product }) => {
+    setItemSelected(true);
+    const AddedItem = { name: "test" };
+    addToCart({ AddedItem });
+    console.log(cart[0].name);
+  };
 
   return (
     <div className="container mx-auto w-full p-4 pt-2">
@@ -45,9 +55,14 @@ function ProductPage() {
               <option value="4">4</option>
             </select>
           </div>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleAddToCart}
+          >
             Add to cart
           </button>
+          {itemSelected && <p>Item Selected</p>}
+          {cart.length}
           <h4 className="text-lg font-bold mt-4 text-gray-900">Description</h4>
           <p className="text-sm text-gray-600">{product.description}</p>
         </div>
