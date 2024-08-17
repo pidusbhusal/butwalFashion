@@ -7,8 +7,7 @@ function ProductPage() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
   const [itemSelected, setItemSelected] = useState(false);
-  const { addToCart } = useContext(CartContext);
-  const { cart } = useContext(CartContext);
+  const { addToCart, cart, quantity } = useContext(CartContext);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
@@ -18,9 +17,11 @@ function ProductPage() {
 
   const handleAddToCart = () => {
     setItemSelected(true);
+    const addItem = { ...product };
 
-    addToCart({ product });
+    addToCart({ product, productQuantity: productCount });
     console.log(cart);
+    console.log(quantity);
   };
 
   return (
@@ -47,7 +48,9 @@ function ProductPage() {
             <select
               id="quantity"
               value={productCount}
-              onChange={(event) => setProductCount(event.target.value)}
+              onChange={(event) =>
+                setProductCount(parseInt(event.target.value))
+              }
               className="ml-2 pl-2 pr-8 py-1 text-sm text-gray-700 border border-gray-300 rounded-md"
             >
               <option value="1">1</option>
