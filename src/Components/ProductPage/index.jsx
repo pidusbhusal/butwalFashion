@@ -17,9 +17,9 @@ function ProductPage() {
 
   const handleAddToCart = ({ product }) => {
     setItemSelected(true);
-    const AddedItem = { name: "test" };
+    const AddedItem = product;
     addToCart({ AddedItem });
-    console.log(cart[0].name);
+    console.log(cart);
   };
 
   return (
@@ -65,6 +65,9 @@ function ProductPage() {
           {cart.length}
           <h4 className="text-lg font-bold mt-4 text-gray-900">Description</h4>
           <p className="text-sm text-gray-600">{product.description}</p>
+          {cart.map((item) => {
+            <p>{JSON.stringify(item)}</p>;
+          })}
         </div>
       </div>
     </div>
