@@ -17,10 +17,20 @@ export default function CartContextProvider({ children }) {
   });
 
   const clearItems = () => {
-    (setCart = []),
-      (setQuantity = []),
-      localStorage.setItem("cart", json.stringify([]));
-    localStorage.setItem("quantity", json.stringify([]));
+    localStorage.removeItem("cart");
+    localStorage.removeItem("quantity");
+    setCart([]);
+    setQuantity([]);
+    console.log("item cleared");
+  };
+
+  const removeSingleItem = (key) => {
+    const newCart = cart.filter((item, index) => {
+      index !== key;
+    });
+    const newQuantity = quantity.filter((quantities, index) => index !== key);
+    setCart(newCart);
+    setQuantity(newQuantity);
   };
 
   const addToCart = ({ product, productQuantity }) => {
@@ -42,7 +52,9 @@ export default function CartContextProvider({ children }) {
   }, [cart, quantity]);
 
   return (
-    <CartContext.Provider value={{ quantity, cart, addToCart , clearItems }}>
+    <CartContext.Provider
+      value={{ quantity, cart, addToCart, clearItems, removeSingleItem }}
+    >
       {children}
     </CartContext.Provider>
   );

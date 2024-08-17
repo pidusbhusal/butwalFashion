@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
 function ProductCard({ id, title, price, category, image }) {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="group">
       <div
@@ -23,11 +21,6 @@ function ProductCard({ id, title, price, category, image }) {
           <p className="text-sm text-gray-600">{category.toUpperCase()}</p>
           <p className="text-sm text-gray-900 line-clamp-1">{title}</p>
           <p className="text-lg mt-2 font-bold text-gray-900">{price}</p>
-          <div>
-            <button className="add-to-card mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all">
-              Add to Cart
-            </button>
-          </div>
         </div>
       </div>
     </div>
