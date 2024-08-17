@@ -60,7 +60,7 @@ function ProductPage() {
             </select>
           </div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="add-to-card mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
             onClick={handleAddToCart}
           >
             Add to cart
@@ -70,7 +70,7 @@ function ProductPage() {
           <h4 className="text-lg font-bold mt-4 text-gray-900">Description</h4>
           <p className="text-sm text-gray-600">{product.description}</p>
           {cart.map((item) => {
-            <p>{JSON.stringify(item)}</p>;
+            <p>{item}</p>;
           })}
         </div>
       </div>

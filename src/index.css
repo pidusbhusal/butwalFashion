@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .add-to-card {
-    @apply bg-blue-950 text-white px-[16px] py-[12px] rounded group-hover:bg-black
+    @apply text-white px-[16px] py-[12px] rounded group-hover:bg-black
 }
