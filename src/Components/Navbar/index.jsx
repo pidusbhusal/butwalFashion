@@ -4,7 +4,7 @@ import { CartContext } from "../../Context/cartContext";
 function Navbar() {
   const { cart } = useContext(CartContext);
   return (
-    <div className="  w-full py-[1rem]  ">
+    <div className="  w-full py-[1rem]  bg-white drop-shadow">
       <section className=" flex max-w-[75%] items-center justify-between  m-auto ">
         <a href="/" className="logo w-fit">
           <img
@@ -14,13 +14,19 @@ function Navbar() {
             height={1000}
           />
         </a>
-        <div className="flex gap-20">
-          <a href="/" className="font-semibold hover:text-[#D10B3B]">
+        <div className="flex gap-10">
+          <a
+            href="/"
+            className="font-semibold text-gray-700 hover:text-[#D10B3B]"
+          >
             Home
           </a>
 
           <div className="flex gap-2 relative">
-            <a href="/cart" className="font-semibold hover:text-[#D10B3B]">
+            <a
+              href="/cart"
+              className=" text-gray-700 font-semibold hover:text-[#D10B3B]"
+            >
               Cart
             </a>
             <div className="w-5 absolute  bottom-3 left-8 text-white font-bold h-5 rounded-lg bg-red-600">
