@@ -12,7 +12,10 @@ function ProductPage() {
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
       .then((res) => res.json())
-      .then((product) => setProduct(product));
+      .then((product) => {
+        setProduct(product);
+        cart.find((items) => items.id == product.id);
+      });
   }, []);
 
   const handleAddToCart = () => {
