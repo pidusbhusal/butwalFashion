@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../../Context/cartContext";
+import relatedProduct from "../RelatedProduct";
 
 function ProductPage() {
   const [productCount, setProductCount] = useState(1);
@@ -28,16 +29,16 @@ function ProductPage() {
   };
 
   return (
-    <div className="container max-w-[80%] mt-20 mx-auto w-full p-4 pt-2">
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-full md:w-1/2">
+    <div className="container max-w-[80%] mt-16 mx-auto w-full py-lg px-[3rem] drop-shadow-md rounded-md bg-white ">
+      <div className="flex  flex-col md:flex-row gap-8">
+        <div className="w-1/2  image-container">
           <img
             src={product.image}
             alt={product.title}
-            className="w-full h-auto object-cover rounded-md shadow-md"
+            className="w-full h-96  m-auto  object-contain rounded-md "
           />
         </div>
-        <div className="w-full md:w-1/2">
+        <div className="w-1/2">
           <p className="text-sm text-gray-500 uppercase">{product.category}</p>
 
           <h1 className="text-xl mt-1 font-semibold text-gray-700">
@@ -56,7 +57,7 @@ function ProductPage() {
               onChange={(event) =>
                 setProductCount(parseInt(event.target.value))
               }
-              className=" text-gray-700 border border-gray-300 rounded py-[1rem] w-10 "
+              className=" text-gray-700 border pl-[1rem] border-gray-300 rounded py-[0.7rem] w-20 "
             >
               <option value="1">1</option>
               <option value="2">2</option>
@@ -64,21 +65,24 @@ function ProductPage() {
               <option value="4">4</option>
             </select>
           </div>
+          {itemSelected && <p className="text-green-700 mt-4">Item added</p>}
           <button
-            className="add-to-card mt-4 bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
+            className="add-to-card mt-1 bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
             onClick={handleAddToCart}
           >
             Add to cart
           </button>
-          {itemSelected && <p>Item Selected</p>}
-          {cart.length}
-          <h4 className="text-lg font-bold mt-4 text-gray-900">Description</h4>
-          <p className="text-sm text-gray-600">{product.description}</p>
+
+          <h4 className="text-xm font-semibold mt-4 text-gray-900 mb-2">
+            Description
+          </h4>
+          <p className=" text-gray-600">{product.description}</p>
           {cart.map((item) => {
             <p>{item}</p>;
           })}
         </div>
       </div>
+      <relatedProduct />
     </div>
   );
 }
