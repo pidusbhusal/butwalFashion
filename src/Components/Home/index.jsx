@@ -34,21 +34,15 @@ function Home() {
               {products
                 .filter((product) => product.category == catagory)
                 .map((product) => (
-                  <Link
-                    to={`products/${product.id}`}
-                    key={product.id}
-                    className="h-full"
-                  >
-                    <ProductCard
-                      id={product.id}
-                      title={product.title}
-                      price={product.price}
-                      category={product.category}
-                      image={product.image}
-                      rating = {product.rating}
-                      className="bg-white shadow-md rounded p-4"
-                    />
-                  </Link>
+                  <ProductCard
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    category={product.category}
+                    image={product.image}
+                    rating={product.rating}
+                    className="bg-white shadow-md rounded p-4"
+                  />
                 ))}
             </div>
           </div>

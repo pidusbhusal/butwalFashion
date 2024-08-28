@@ -9,6 +9,7 @@ function ProductPage() {
   const { id } = useParams();
   const [itemSelected, setItemSelected] = useState(false);
   const { addToCart, cart, quantity } = useContext(CartContext);
+  const [relatedproducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
@@ -19,10 +20,18 @@ function ProductPage() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products/category/" + product.category)
+      .then((res) => res.json())
+      .then((data) => {
+        setRelatedProducts(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   const handleAddToCart = () => {
     setItemSelected(true);
     const addItem = { ...product };
-
     addToCart({ product, productQuantity: productCount });
     console.log(cart);
     console.log(quantity);
@@ -47,7 +56,26 @@ function ProductPage() {
             <h1 className="text-xl mt-1 font-semibold text-gray-700">
               {product.title}
             </h1>
-            <h2 className="text-2xl mt-2 font-bold text-gray-900">
+            {/* rating */}
+            {product.rating && (
+              <p className="text-xs mt-2 text-gray-600 flex">
+                <svg
+                  class="w-4 h-4 text-yellow-500 me-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                {product.rating.rate} out of 5 &nbsp;&nbsp;
+                <span className="font-bold underline">
+                  {product.rating.count} reviews
+                </span>
+              </p>
+            )}
+
+            <h2 className="text-2xl mt-5 font-bold text-gray-900">
               $ {product.price}
             </h2>
             <div className=" mt-4 items-center mb-2">
@@ -86,7 +114,7 @@ function ProductPage() {
           </div>
         </div>
       </div>
-      <RelatedProduct category={product.category} productID={product.id} />
+      <RelatedProduct RelatedProducts={relatedproducts} />
     </div>
   );
 }
