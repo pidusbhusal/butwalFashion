@@ -16,10 +16,11 @@ function Cart() {
           <div className="grid grid-cols-1 gap-6">
             {cart.map((item, index) => (
               <CartCard
-                image={item.image}
-                quantity={quantity?.[index]}
-                title={item.title}
-                index={index}
+                image={item.product.image}
+                quantity={item.quantity}
+                title={item.product.title}
+                ItemOrderID={item.ItemOrderID}
+                removeSingleItem={removeSingleItem}
               />
             ))}
           </div>

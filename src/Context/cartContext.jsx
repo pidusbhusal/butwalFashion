@@ -10,50 +10,47 @@ export default function CartContextProvider({ children }) {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  const [quantity, setQuantity] = useState(() => {
-    // Initialize quantity from localStorage
-    const savedQuantity = localStorage.getItem("quantity");
-    return savedQuantity ? JSON.parse(savedQuantity) : [];
-  });
+  function uuid() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+      (
+        +c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))
+      ).toString(16)
+    );
+  }
 
+  
   const clearItems = () => {
     localStorage.removeItem("cart");
-    localStorage.removeItem("quantity");
     setCart([]);
-    setQuantity([]);
     console.log("item cleared");
   };
 
   const removeSingleItem = (key) => {
-    const newCart = cart.filter((item, index) => {
-      index !== key;
-    });
-    const newQuantity = quantity.filter((quantities, index) => index !== key);
-    setCart(newCart);
-    setQuantity(newQuantity);
+    const filteredCart = cart.filter((item) => item.ItemOrderID !== key);
+    setCart(filteredCart);
   };
 
   const addToCart = ({ product, productQuantity }) => {
-    const updatedCart = [...cart, product];
-    const updatedQuantity = [...quantity, productQuantity];
+    const updatedCart = [
+      ...cart,
+      { product: product, ItemOrderID: uuid(), quantity: productQuantity },
+    ];
 
     setCart(updatedCart);
-    setQuantity(updatedQuantity);
 
     // Save updated cart and quantity to localStorage
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    localStorage.setItem("quantity", JSON.stringify(updatedQuantity));
   };
 
   useEffect(() => {
     // Optional: Sync localStorage with state whenever cart or quantity changes
     localStorage.setItem("cart", JSON.stringify(cart));
-    localStorage.setItem("quantity", JSON.stringify(quantity));
-  }, [cart, quantity]);
+  }, [cart]);
 
   return (
     <CartContext.Provider
-      value={{ quantity, cart, addToCart, clearItems, removeSingleItem }}
+      value={{  cart, addToCart, clearItems, removeSingleItem }}
     >
       {children}
     </CartContext.Provider>
