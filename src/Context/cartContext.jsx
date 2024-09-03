@@ -31,9 +31,6 @@ export default function CartContextProvider({ children }) {
   };
 
   const updateCount = ({ orderId, newQuanity }) => {
-    console.log("triggered");
-    console.log(orderId);
-    console.log(newQuanity)
     const updatedCart = cart.map((item) => {
       if (item.ItemOrderID == orderId) {
         return { ...item, quantity: newQuanity };
@@ -41,7 +38,6 @@ export default function CartContextProvider({ children }) {
       return item;
     });
     setCart(updatedCart);
-    console.log(cart);
     // Save updated cart and quantity to localStorage
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };

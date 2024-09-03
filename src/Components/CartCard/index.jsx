@@ -16,13 +16,10 @@ export default function CartCard({
 
   const handleProductCountChange = (e) => {
     setProductCount(parseInt(e.target.value));
-    console.log(productCount);
-    console.log(ItemOrderID);
-    updateCount({ orderId: ItemOrderID, newQuanity: productCount });
+    updateCount({ orderId: ItemOrderID, newQuanity: parseInt(e.target.value) });
   };
 
   const [productCount, setProductCount] = useState(quantity);
-
 
   return (
     <div className=" border-gray-100 border-2  w-full flex items-start px-sm py-sm  p-4 bg-white rounded-lg shadow-lg">
