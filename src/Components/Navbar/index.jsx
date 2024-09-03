@@ -9,9 +9,9 @@ function Navbar() {
 
   const { cart } = useContext(CartContext);
   const handleSignOut = async () => {
-    await doSignOut().then(() => {
-      Navigate("/LogInForm");
-    });
+    await doSignOut().then(Navigate("/LogInForm"))
+    
+
   };
 
   return (
@@ -21,8 +21,7 @@ function Navbar() {
           <img
             src="icons/logo.svg"
             alt="Fsahion Butwal"
-            width={150}
-            height={1000}
+            width={110}
           />
         </a>
         <div className="flex gap-10">
@@ -45,10 +44,15 @@ function Navbar() {
             </div>
           </div>
 
-          <p>{currentUser && currentUser.email}</p>
+         
 
           {userLoggedIn ? (
-            <button onClick={handleSignOut}>Sign Out</button>
+            <button
+              onClick={handleSignOut}
+              className="font-semibold text-gray-700 hover:text-[#D10B3B]"
+            >
+              Sign Out
+            </button>
           ) : (
             <a
               href="/LogInForm"

@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Crousel() {
   return (
-    <div className="my-8 bg-gray-100">
+    <div className="my-8 ">
       <img
         src="crouselImage/crousel1.jpg"
-        className="rounded-md"
+        className=" rounded-lg object-cover w-full"
         alt=""
         loading="lazy"
       />
