@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
-import "firebase/auth";
+import { getAuth } from "firebase/auth";
 
-const app = initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyC0odMcWsqAjII2KjkagpmLeNMwauft8_M",
+  authDomain: "butwalfashion-c8a88.firebaseapp.com",
+  projectId: "butwalfashion-c8a88",
+  storageBucket: "butwalfashion-c8a88.appspot.com",
+  messagingSenderId: "934885901738",
+  appId: "1:934885901738:web:1865a75ee0eb0a51d017d3",
+};
 
-export const Auth = app.auth();
-export default app;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+export{app, auth}
