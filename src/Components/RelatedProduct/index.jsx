@@ -14,7 +14,7 @@ export default function RelatedProduct({ category }) {
   const [relatedproducts, setRelatedProducts] = useState([]);
 
   return (
-    <div className="homeSection  bg-white mt-5 py-sm px-sm rounded-md drop-shadow-md">
+    <div className="homeSection  bg-white mt-5 py-sm md:px-sm px-[0.5rem] rounded-md drop-shadow-md">
       <h2 className="capitalize text-xl font-semibold mb-4">Related Product</h2>
       <div className="grid   relative h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {relatedproducts?.map((product) => (

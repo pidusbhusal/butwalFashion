@@ -6,14 +6,14 @@ function ProductCard({ id, title, price, category, image, rating }) {
     <Link to={`products/${id}`} key={id} className="h-full" relative="path">
       <div className="group h-full">
         <div
-          className=" pt-sm pb-[1rem] bg-white border h-full border-gray-200 rounded-md hover:shadow-md transition-all"
+          className=" pt-[1rem] lg:pt-sm pb-[1rem] bg-white border h-full border-gray-200 rounded-md hover:shadow-md transition-all"
           key={id}
         >
           <div className="image-container">
             <img
               src={image}
               alt={`image of ${title}`}
-              className="object-contain w-full h-40"
+              className="object-contain w-full  h-20 lg:h-40 "
             />
           </div>
 
@@ -22,7 +22,7 @@ function ProductCard({ id, title, price, category, image, rating }) {
               {category.toUpperCase()}
             </p>
             <p className="text-lg  font-bold text-gray-900 ">$ {price}</p>
-            <p className="text-sm font-semibold text-gray-600 line-clamp-2 ">
+            <p className="text-sm font-semibold text-gray-600 line-clamp-1 lg:line-clamp-2 ">
               {title}
             </p>
             <p className="text-xs mt-3 text-gray-600 flex">

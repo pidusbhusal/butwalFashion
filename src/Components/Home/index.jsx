@@ -23,14 +23,14 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center">
-      <div className="container  max-w-[80%] mx-auto p-4 pt-6 md:p-6 lg:p-12">
+      <div className="container  lg:max-w-[80%] mx-auto p-4 pt-6 md:p-6 lg:p-12">
         <Crousel />
         {prodctCatagories.map((catagory) => (
-          <div className="homeSection  bg-white mt-5 py-sm px-sm rounded-md shadow">
+          <div className="homeSection  bg-white mt-5 py-[1rem] md:py-sm md:px-sm px-[0.5rem] rounded-md shadow">
             <h2 className="capitalize text-xl font-semibold mb-4">
               {catagory}
             </h2>
-            <div className="grid   relative h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid   relative h-fit grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {products
                 .filter((product) => product.category == catagory)
                 .map((product) => (

@@ -28,27 +28,27 @@ function ProductPage() {
   };
 
   return (
-    <div className="container max-w-[80%] mt-8 mx-auto w-full">
-      <div className=" py-sm px-[3rem] drop-shadow-md rounded-md bg-white ">
+    <div className="container md:max-w-[80%] mt-8 mx-auto w-full">
+      <div className=" py-sm md:px-[3rem] drop-shadow-md rounded-md bg-white ">
         <div className="flex items-center  flex-col md:flex-row gap-8">
-          <div className="w-1/2  image-container">
+          <div className="md:w-1/2  w-full image-container">
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-96  m-auto  object-contain rounded-md "
+              className="w-full md:h-96  h-32 m-auto  object-contain rounded-md "
             />
           </div>
-          <div className="w-1/2 border-gray-100 rounded-md px-sm py-sm border-2">
-            <p className="text-sm text-gray-500 uppercase">
+          <div className="md:w-1/2 w-full border-gray-100 rounded-md px-sm py-sm border-2">
+            <p className="md:text-sm text-xs text-gray-500 uppercase">
               {product.category}
             </p>
 
-            <h1 className="text-xl mt-1 font-semibold text-gray-700">
+            <h1 className="md:text-xl text-md  mt-1 font-semibold text-gray-700">
               {product.title}
             </h1>
             {/* rating */}
             {product.rating && (
-              <p className="text-xs mt-2 text-gray-600 flex">
+              <p className="text-xs mt-1 md:mt-2 text-gray-600 flex">
                 <svg
                   class="w-4 h-4 text-yellow-500 me-1"
                   aria-hidden="true"
@@ -65,10 +65,10 @@ function ProductPage() {
               </p>
             )}
 
-            <h2 className="text-2xl mt-5 font-bold text-gray-900">
+            <h2 className="text-2xl mt-2 md:mt-5 font-bold text-gray-900">
               $ {product.price}
             </h2>
-            <div className=" mt-4 items-center mb-2">
+            <div className=" mt-2 md:mt-4 items-center mb-2">
               <label htmlFor="quantity" className="block mb-1   text-gray-600">
                 Quantity
               </label>
@@ -78,7 +78,7 @@ function ProductPage() {
                 onChange={(event) =>
                   setProductCount(parseInt(event.target.value))
                 }
-                className=" text-gray-700 border pl-[1rem] border-gray-300 rounded py-[0.7rem] w-20 "
+                className=" text-gray-700 border pl-[1rem] border-gray-300 rounded py-[0.7rem] md:w-20 w-full"
               >
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -88,16 +88,16 @@ function ProductPage() {
             </div>
             {itemSelected && <p className="text-green-700 mt-4">Item added</p>}
             <button
-              className="add-to-card mt-1 bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
+              className="add-to-card mt-4 w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
               onClick={handleAddToCart}
             >
               Add to cart
             </button>
 
-            <h4 className="text-xm font-semibold mt-4 text-gray-900 mb-2">
+            <h4 className="text- font-semibold text-sm md:text-lg mt-4 text-gray-900 mb-2">
               Description
             </h4>
-            <p className=" text-gray-600">{product.description}</p>
+            <p className=" text-gray-600 text-sm  md:text-base">{product.description}</p>
             {cart.map((item) => {
               <p>{item}</p>;
             })}
