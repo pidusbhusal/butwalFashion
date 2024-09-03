@@ -19,7 +19,6 @@ export default function CartContextProvider({ children }) {
     );
   }
 
-  
   const clearItems = () => {
     localStorage.removeItem("cart");
     setCart([]);
@@ -29,6 +28,22 @@ export default function CartContextProvider({ children }) {
   const removeSingleItem = (key) => {
     const filteredCart = cart.filter((item) => item.ItemOrderID !== key);
     setCart(filteredCart);
+  };
+
+  const updateCount = ({ orderId, newQuanity }) => {
+    console.log("triggered");
+    console.log(orderId);
+    console.log(newQuanity)
+    const updatedCart = cart.map((item) => {
+      if (item.ItemOrderID == orderId) {
+        return { ...item, quantity: newQuanity };
+      }
+      return item;
+    });
+    setCart(updatedCart);
+    console.log(cart);
+    // Save updated cart and quantity to localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const addToCart = ({ product, productQuantity }) => {
@@ -50,7 +65,7 @@ export default function CartContextProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{  cart, addToCart, clearItems, removeSingleItem }}
+      value={{ cart, addToCart, clearItems, removeSingleItem, updateCount }}
     >
       {children}
     </CartContext.Provider>
