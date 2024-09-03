@@ -17,3 +17,7 @@ body {
 .add-to-card {
     @apply text-white px-[16px] py-[12px] rounded group-hover:bg-black
 }
+
+.height-inherit { 
+    height: inherit;
+}

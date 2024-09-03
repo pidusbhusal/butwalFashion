@@ -10,6 +10,7 @@ export default function CartContextProvider({ children }) {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [totalPrice, setTotalPrice] = useState(0);
   function uuid() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
       (
@@ -54,14 +55,32 @@ export default function CartContextProvider({ children }) {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  const CounttotalPrice = () => {
+    const TotalPrice = cart.map((item) => {
+      setTotalPrice(
+        (prevState) => prevState + item.quantity * item.product.price
+      );
+    });
+  };
+
   useEffect(() => {
+    // making the initial count 0 before it start to count
+    setTotalPrice(0);
+    CounttotalPrice();
     // Optional: Sync localStorage with state whenever cart or quantity changes
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, clearItems, removeSingleItem, updateCount }}
+      value={{
+        cart,
+        addToCart,
+        clearItems,
+        removeSingleItem,
+        updateCount,
+        totalPrice,
+      }}
     >
       {children}
     </CartContext.Provider>
