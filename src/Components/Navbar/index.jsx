@@ -1,13 +1,17 @@
 import { useContext } from "react";
 import { CartContext } from "../../Context/cartContext";
-import { authContext, useAuth } from "../../Context/authUserContext";
-import { signOut } from "firebase/auth";
+import useAuth from "../../Context/authUserContext";
+import { doSignOut } from "../../firebase/auth";
+import { Navigate } from "react-router-dom";
 
 function Navbar() {
   const { userLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
   const { cart } = useContext(CartContext);
-  const handleSignOut =  async () => {
-   await signOut();
+  const handleSignOut = async () => {
+    await doSignOut().then(() => {
+      Navigate("/LogInForm");
+    });
   };
 
   return (
@@ -40,6 +44,8 @@ function Navbar() {
               <p className="w-fit m-auto text-sm">{cart.length}</p>
             </div>
           </div>
+
+          <p>{currentUser && currentUser.email}</p>
 
           {userLoggedIn ? (
             <button onClick={handleSignOut()}>Sign Out</button>

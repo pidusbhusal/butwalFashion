@@ -1,19 +1,43 @@
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
+import useAuth from "../../Context/authUserContext";
+import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 
 export default function SignUp() {
-  // const { userLoggedIn } = useAuth();
+  const { userLoggedIn } = useAuth();
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [isSigningUp, setIsSigningUp] = useState(false);
+
+  const [formValidated, setFormValidated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function formValidation() {
+    if (password.length < 8) {
+      setErrorMessage("password needs to be more then eight charecter");
+    } else if (password !== confirmPassword) {
+      setErrorMessage("password and confirm password doesn't match");
+    } else {
+      setFormValidated(true);
+    }
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(email, password);
+    formValidation();
+    if (!isSigningUp) {
+      setIsSigningUp(true);
+      await doCreateUserWithEmailAndPassword(email, password);
+    }
   };
 
   return (
     <div>
-      {/* {userLoggedIn && <Navigate to={"/"} replace={true} />} */}
+      {userLoggedIn && <Navigate to={"/"} replace={true} />}
 
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -38,6 +62,8 @@ export default function SignUp() {
                   type="email"
                   autoComplete="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-md border-0 pl-[1rem]  py-[0.7rem] text-gray-900 shadow-sm ring-1 ring-inset  
  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                 />
@@ -59,10 +85,14 @@ export default function SignUp() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   className="block w-full rounded-md border-0 pl-[1rem]  py-[0.7rem] text-gray-900 shadow-sm ring-1 ring-inset  
  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                 />
+                <p>{errorMessage}</p>
               </div>
             </div>
 
@@ -80,7 +110,10 @@ export default function SignUp() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                  }}
                   className="block w-full rounded-md border-0 pl-[1rem]  py-[0.7rem] text-gray-900 shadow-sm ring-1 ring-inset  
  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                 />

@@ -1,12 +1,10 @@
 import { Link, Navigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { doSignInWithEmailAndPassword } from "../../firebase/auth";
-import { useAuth } from "../../Context/authUserContext";
+import useAuth from "../../Context/authUserContext";
 
 export default function LogInForm() {
   const { userLoggedIn } = useAuth();
-
-  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +15,7 @@ export default function LogInForm() {
     if (!isSigningIn) {
       setIsSigningIn(true);
       await doSignInWithEmailAndPassword(email, password);
+      console.log("loginVayo");
     }
   }
   return (
