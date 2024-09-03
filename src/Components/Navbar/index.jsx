@@ -1,8 +1,19 @@
 import { useContext } from "react";
 import { CartContext } from "../../Context/cartContext";
+import useAuth from "../../Context/authUserContext";
+import { doSignOut } from "../../firebase/auth";
+import { Navigate } from "react-router-dom";
 
 function Navbar() {
+  const { userLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
   const { cart } = useContext(CartContext);
+  const handleSignOut = async () => {
+    await doSignOut().then(() => {
+      Navigate("/LogInForm");
+    });
+  };
+
   return (
     <div className="  w-full py-[1rem]  bg-white drop-shadow">
       <section className=" flex max-w-[75%] items-center justify-between  m-auto ">
@@ -33,6 +44,19 @@ function Navbar() {
               <p className="w-fit m-auto text-sm">{cart.length}</p>
             </div>
           </div>
+
+          <p>{currentUser && currentUser.email}</p>
+
+          {userLoggedIn ? (
+            <button onClick={handleSignOut()}>Sign Out</button>
+          ) : (
+            <a
+              href="/LogInForm"
+              className="font-semibold text-gray-700 hover:text-[#D10B3B]"
+            >
+              Sign In
+            </a>
+          )}
         </div>
       </section>
     </div>

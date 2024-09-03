@@ -9,7 +9,10 @@ export default function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
+<<<<<<< HEAD
   
+=======
+>>>>>>> 741cd2d9f953500e917e2ca439efb6a79017bfa5
   const [currentUser, setCurrentUser] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
