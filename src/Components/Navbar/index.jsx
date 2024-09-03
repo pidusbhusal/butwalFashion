@@ -5,8 +5,8 @@ import { doSignOut } from "../../firebase/auth";
 import { Navigate } from "react-router-dom";
 
 function Navbar() {
-  const { userLoggedIn } = useAuth();
-  const { currentUser } = useAuth();
+  const { userLoggedIn, currentUser } = useAuth();
+
   const { cart } = useContext(CartContext);
   const handleSignOut = async () => {
     await doSignOut().then(() => {
@@ -48,7 +48,7 @@ function Navbar() {
           <p>{currentUser && currentUser.email}</p>
 
           {userLoggedIn ? (
-            <button onClick={handleSignOut()}>Sign Out</button>
+            <button onClick={handleSignOut}>Sign Out</button>
           ) : (
             <a
               href="/LogInForm"
