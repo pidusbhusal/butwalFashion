@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function ProductCard({ id, title, price, category, image, rating }) {
-   
-
   return (
     <Link to={`products/${id}`} key={id} className="h-full" relative="path">
       <div className="group h-full">

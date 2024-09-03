@@ -9,7 +9,6 @@ function ProductPage() {
   const { id } = useParams();
   const [itemSelected, setItemSelected] = useState(false);
   const { addToCart, cart, quantity } = useContext(CartContext);
-  const [relatedproducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/" + id)
@@ -18,15 +17,6 @@ function ProductPage() {
         setProduct(product);
         cart.find((items) => items.id == product.id);
       });
-  }, []);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products/category/" + product.category)
-      .then((res) => res.json())
-      .then((data) => {
-        setRelatedProducts(data);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const handleAddToCart = () => {
@@ -114,7 +104,7 @@ function ProductPage() {
           </div>
         </div>
       </div>
-      <RelatedProduct RelatedProducts={relatedproducts} />
+      <RelatedProduct category={product.category} />
     </div>
   );
 }
