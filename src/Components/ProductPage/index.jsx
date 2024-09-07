@@ -88,7 +88,7 @@ function ProductPage() {
             </div>
             {itemSelected && <p className="text-green-700 mt-4">Item added</p>}
             <button
-              className="add-to-card mt-4 w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-all"
+              className="add-to-card mt-4 md:w-fit w-full bg-black text-white py-2 px-xl rounded-md hover:bg-gray-800 transition-all"
               onClick={handleAddToCart}
             >
               Add to cart
@@ -97,7 +97,9 @@ function ProductPage() {
             <h4 className="text- font-semibold text-sm md:text-lg mt-4 text-gray-900 mb-2">
               Description
             </h4>
-            <p className=" text-gray-600 text-sm  md:text-base">{product.description}</p>
+            <p className=" text-gray-600 text-sm  md:text-base">
+              {product.description}
+            </p>
             {cart.map((item) => {
               <p>{item}</p>;
             })}

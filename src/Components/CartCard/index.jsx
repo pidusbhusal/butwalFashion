@@ -23,17 +23,17 @@ export default function CartCard({
 
   return (
     
-    <div className=" border-gray-100 border-2 relative h-fit  w-full flex items-start px-sm py-sm  p-4 bg-white rounded-lg ">
+    <div className=" border-gray-100 border-2 relative h-fit  w-full flex flex-wrap items-start px-sm py-sm  p-4 bg-white rounded-lg ">
       <img
         src={image}
         alt={title}
-        className="h-24 w-32 rounded-md object-contain"
+        className="h-16 md:h-24 w-32 rounded-md object-contain"
       />
       <div className="ml-4">
-        <p className="text-xs text-gray-500 mb-2">{ItemOrderID}</p>
+        <p className="text-xs mt-2 text-gray-500 mb-2">{ItemOrderID}</p>
         <h2 className=" text-base">{title}</h2>
         <p className="text-gray-600 text-sm">$ {price} ea</p>
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center flex-wrap gap-6 mt-4 justify-between ">
           <p className="text-gray-600">
             Quantity :
             <select
@@ -55,7 +55,7 @@ export default function CartCard({
         </div>
         <div className="flex mt-4 ">
           <button
-            className="  ml-auto px-[1rem] rounded  py-[0.5rem]  text-red-700 hover:bg-red-50"
+            className="  md:ml-auto md:w-fit w-full px-[1rem] rounded  py-[0.5rem] bg-red-50 md:bg-white text-red-700 hover:bg-red-50"
             onClick={handleClick}
           >
             Remove Item
