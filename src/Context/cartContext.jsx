@@ -1,16 +1,19 @@
 import { createContext, useState, useEffect } from "react";
-import { json } from "react-router-dom";
+import { json, redirect } from "react-router-dom";
+import { db } from "../firebase/firebase"; // Import Firestore database
+import useAuth from "./authUserContext"; // Custom hook to access user authentication state
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
 
-export const CartContext = createContext();
+export const CartContext = createContext(); // Create a Context for the Cart
 
 export default function CartContextProvider({ children }) {
-  const [cart, setCart] = useState(() => {
-    // Initialize cart from localStorage
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const { currentUser, userLoggedIn } = useAuth(); // Get current user and login status from context
 
-  const [totalPrice, setTotalPrice] = useState(0);
+  // State to manage the shopping cart
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0); // State to track the total price of items in the cart
+
+  // Function to generate a unique ID for each cart item
   function uuid() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
       (
@@ -20,57 +23,109 @@ export default function CartContextProvider({ children }) {
     );
   }
 
+  // Function to clear items from the cart
   const clearItems = () => {
-    localStorage.removeItem("cart");
-    setCart([]);
+    setCart([]); // Clear cart state
     console.log("item cleared");
   };
 
-  const removeSingleItem = (key) => {
-    const filteredCart = cart.filter((item) => item.ItemOrderID !== key);
-    setCart(filteredCart);
+  // Function to remove a single item from the cart by its ID
+  const removeSingleItem = async (key) => {
+    const filteredCart = cart.filter((item) => item.ItemOrderID !== key); // Filter out the item to be removed
+    setCart(filteredCart); // Update cart state
+    if (currentUser) {
+      try {
+        const cartRef = doc(db, "carts", currentUser.uid); // Reference to the cart document in Firestore
+        await setDoc(cartRef, { items: filteredCart }); // Store the updated cart in Firestore
+        console.log("Cart updated in Firestore");
+      } catch (error) {
+        console.error("Error saving cart to firebase", error); // Log error if saving fails
+      }
+    }
   };
 
-  const updateCount = ({ orderId, newQuanity }) => {
+  const fetchCartData = async () => {
+    if (currentUser) {
+      try {
+        console.log("Fetching cart data for user:", currentUser.uid); // Debug log
+        const cartRef = doc(db, "carts", currentUser.uid); // Reference to the user's cart document
+        const cartDoc = await getDoc(cartRef); // Fetch the document
+
+        if (cartDoc.exists()) {
+          const data = cartDoc.data(); // Get data from the document
+          console.log("Fetched cart data:", data.items); // Log fetched data
+          setCart(data.items || []); // Set cart state to items from Firestore
+        } else {
+          console.log("No cart found for this user."); // Log if no document exists
+          setCart([]); // Reset cart if no document exists
+        }
+      } catch (error) {
+        console.error("Error fetching cart from Firebase:", error); // Log error
+      }
+    } else {
+      console.log("No user logged in."); // Log if no user is logged in
+      setCart([]); // Reset cart if user is not logged in
+    }
+  };
+  // Function to update the quantity of an item in the cart
+  const updateCount = async ({ orderId, newQuantity }) => {
     const updatedCart = cart.map((item) => {
       if (item.ItemOrderID == orderId) {
-        return { ...item, quantity: newQuanity };
+        return { ...item, quantity: newQuantity }; // Update the item's quantity
       }
-      return item;
+      return item; // Return unchanged item
     });
-    setCart(updatedCart);
-    // Save updated cart and quantity to localStorage
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart); // Update cart state
+    if (currentUser) {
+      try {
+        const cartRef = doc(db, "carts", currentUser.uid); // Reference to the cart document in Firestore
+        await setDoc(cartRef, { items: updatedCart }); // Store the updated cart in Firestore
+        console.log("Cart updated in Firestore");
+      } catch (error) {
+        console.error("Error saving cart to firebase", error); // Log error if saving fails
+      }
+    }
   };
 
-  const addToCart = ({ product, productQuantity }) => {
+  // Function to add an item to the cart
+  const addToCart = async ({ product, productQuantity }) => {
     const updatedCart = [
       ...cart,
-      { product: product, ItemOrderID: uuid(), quantity: productQuantity },
+      { product: product, ItemOrderID: uuid(), quantity: productQuantity }, // Create new cart item
     ];
 
-    setCart(updatedCart);
+    setCart(updatedCart); // Update cart state
 
-    // Save updated cart and quantity to localStorage
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    if (currentUser) {
+      try {
+        const cartRef = doc(db, "carts", currentUser.uid); // Reference to the cart document in Firestore
+        await setDoc(cartRef, { items: updatedCart }); // Store the updated cart in Firestore
+        console.log("Cart updated in Firestore");
+      } catch (error) {
+        console.error("Error saving cart to firebase", error); // Log error if saving fails
+      }
+    }
   };
 
+  // Function to calculate total price
   const CounttotalPrice = () => {
     const TotalPrice = cart.map((item) => {
       setTotalPrice(
         (prevState) => prevState + item.quantity * item.product.price
-      );
+      ); // Update total price
     });
   };
 
+  // Effect to update total price and sync with localStorage whenever cart changes
   useEffect(() => {
-    // making the initial count 0 before it start to count
-    setTotalPrice(0);
-    CounttotalPrice();
-    // Optional: Sync localStorage with state whenever cart or quantity changes
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    setTotalPrice(0); // Reset total price before recalculating
+    CounttotalPrice(); // Calculate total price
+  }, [cart]); // Dependency array: run effect whenever cart changes
 
+  useEffect(() => {
+    fetchCartData();
+  }, [currentUser]);
+  // Return the CartContext Provider
   return (
     <CartContext.Provider
       value={{

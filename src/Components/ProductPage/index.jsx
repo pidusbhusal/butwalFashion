@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, redirect, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../Context/cartContext";
 import RelatedProduct from "../RelatedProduct";
+import useAuth from "../../Context/authUserContext";
 
 function ProductPage() {
+  const navigate = useNavigate();
+  const { userLoggedIn } = useAuth();
   const [productCount, setProductCount] = useState(1);
   const [product, setProduct] = useState({});
   const { id } = useParams();
@@ -20,11 +24,15 @@ function ProductPage() {
   }, []);
 
   const handleAddToCart = () => {
-    setItemSelected(true);
-    const addItem = { ...product };
-    addToCart({ product, productQuantity: productCount });
-    console.log(cart);
-    console.log(quantity);
+    if (userLoggedIn) {
+      setItemSelected(true);
+      const addItem = { ...product };
+      addToCart({ product, productQuantity: productCount });
+      console.log(cart);
+      console.log(quantity);
+    } else {
+      navigate("/LogInForm");
+    }
   };
 
   return (
