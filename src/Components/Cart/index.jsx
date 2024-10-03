@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../Context/cartContext";
 import CartCard from "../CartCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Cart() {
   const { cart, totalPrice, clearItems, removeSingleItem } =
     useContext(CartContext);
   const [subTotal, setSubTotal] = useState(0);
-
+  const handleFinishShopping = () => {
+    clearItems();
+  };
   return (
     <div className="max-w-[80%] m-auto mt-5 ">
       <div className="  flex gap-3  flex-wrap  ">
@@ -70,8 +72,11 @@ function Cart() {
             </p>
           </div>
           <div className="mx-auto">
-            <button className="mt-8 mx-auto md:w-fit w-full bg-black text-white py-[1rem] px-sm rounded-md hover:bg-gray-800 transition-all">
-              <Link to={"/"}>Finish Shopping</Link>
+            <button
+              onClick={handleFinishShopping}
+              className="mt-8 mx-auto md:w-fit w-full bg-black text-white py-[1rem] px-sm rounded-md hover:bg-gray-800 transition-all"
+            >
+              Finish Shopping
             </button>
           </div>
         </div>

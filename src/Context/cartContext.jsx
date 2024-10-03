@@ -56,13 +56,11 @@ export default function CartContextProvider({ children }) {
   const fetchCartData = async () => {
     if (currentUser) {
       try {
-        console.log("Fetching cart data for user:", currentUser.uid); // Debug log
         const cartRef = doc(db, "carts", currentUser.uid); // Reference to the user's cart document
         const cartDoc = await getDoc(cartRef); // Fetch the document
 
         if (cartDoc.exists()) {
           const data = cartDoc.data(); // Get data from the document
-          console.log("Fetched cart data:", data.items); // Log fetched data
           setCart(data.items || []); // Set cart state to items from Firestore
         } else {
           console.log("No cart found for this user."); // Log if no document exists
@@ -86,8 +84,7 @@ export default function CartContextProvider({ children }) {
     });
 
     setCart(updatedCart); // Update the local cart state
-    console.log("Updated Cart:", updatedCart);
-    console.log("New Quantity:", newQuantity);
+   
 
     if (currentUser) {
       try {
