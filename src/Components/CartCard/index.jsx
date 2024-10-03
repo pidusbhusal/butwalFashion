@@ -16,13 +16,11 @@ export default function CartCard({
 
   const handleProductCountChange = (e) => {
     setProductCount(parseInt(e.target.value));
-    updateCount({ orderId: ItemOrderID, newQuanity: parseInt(e.target.value) });
   };
 
   const [productCount, setProductCount] = useState(quantity);
 
   return (
-    
     <div className=" border-gray-100 border-2 relative h-fit  w-full flex flex-wrap items-start px-sm py-sm  p-4 bg-white rounded-lg ">
       <img
         src={image}
@@ -39,7 +37,13 @@ export default function CartCard({
             <select
               id="quantity"
               value={productCount}
-              onChange={handleProductCountChange}
+              onChange={(e) => {
+                setProductCount(e.target.value);
+                updateCount({
+                  orderId: ItemOrderID,
+                  newQuantity: parseInt(e.target.value),
+                });
+              }}
               className=" text-gray-700 border ml-1 pl-[1rem] border-gray-300 rounded py-[0.7rem] md:w-20 w-full"
             >
               <option value="1">1</option>

@@ -24,9 +24,18 @@ export default function CartContextProvider({ children }) {
   }
 
   // Function to clear items from the cart
-  const clearItems = () => {
+  const clearItems = async () => {
     setCart([]); // Clear cart state
     console.log("item cleared");
+    if (currentUser) {
+      try {
+        const cartRef = doc(db, "carts", currentUser.uid); // Reference to the cart document in Firestore
+        await setDoc(cartRef, { items: [] }); // Store the updated cart in Firestore
+        console.log("Cart updated in Firestore");
+      } catch (error) {
+        console.error("Error saving cart to firebase", error); // Log error if saving fails
+      }
+    }
   };
 
   // Function to remove a single item from the cart by its ID
@@ -70,12 +79,16 @@ export default function CartContextProvider({ children }) {
   // Function to update the quantity of an item in the cart
   const updateCount = async ({ orderId, newQuantity }) => {
     const updatedCart = cart.map((item) => {
-      if (item.ItemOrderID == orderId) {
+      if (item.ItemOrderID === orderId) {
         return { ...item, quantity: newQuantity }; // Update the item's quantity
       }
       return item; // Return unchanged item
     });
-    setCart(updatedCart); // Update cart state
+
+    setCart(updatedCart); // Update the local cart state
+    console.log("Updated Cart:", updatedCart);
+    console.log("New Quantity:", newQuantity);
+
     if (currentUser) {
       try {
         const cartRef = doc(db, "carts", currentUser.uid); // Reference to the cart document in Firestore
